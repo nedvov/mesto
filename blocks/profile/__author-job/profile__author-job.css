@@ -12,6 +12,7 @@
     white-space: nowrap;
     overflow: hidden;
     max-width: 550px;
+    box-sizing: border-box;
 }
 
 @media screen and (min-width:768px) and (max-width:1023px) {
