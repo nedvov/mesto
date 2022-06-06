@@ -1,0 +1,23 @@
+.page {
+    background-color: #000000;
+    justify-content: center;
+    margin: 0 auto;
+    box-sizing: border-box;
+    width: fit-content;
+    position: relative;
+}
+
+@media screen and (max-width:767px) {
+    .page {
+        width: 100%;
+    }
+    
+    .page::after {
+        width: 100%;
+        height: 0;
+        content: '';
+        border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+        position: absolute;
+        top: 56px;
+    }
+}
