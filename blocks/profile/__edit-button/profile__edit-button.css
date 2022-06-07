@@ -5,6 +5,9 @@
     height: 24px;
     transition: opacity 0.5s;
     box-sizing: border-box;
+    background-color: #000000;
+    padding: 0;
+    border: none;
 }
 
 .profile__edit-button:hover {

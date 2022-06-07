@@ -15,55 +15,55 @@
     </header>
     <main>
         <section class="profile">
-            <img class="profile__avatar" src="./images/profile__avatar.jpg" alt="Фото профиля">
+            <img class="profile__avatar" src="./images/profile__avatar.jpg" alt="Ваш аватар">
             <div class="profile__info">
                 <h1 class="profile__author-name">Жак-Ив Кусто</h1>
-                <div class="profile__edit-button"></div>
+                <button class="profile__edit-button" type="button"></button>
                 <p class="profile__author-job">Исследователь океана</p>
             </div>
-            <div class="profile__add-button"></div>
+            <button class="profile__add-button" type="button"></button>
         </section>
         <section class="tiles">
             <div class="tiles__item">
-                <img class="tiles__image" src="./images/pskov.jpg" alt="Фото. Башня Кремля">          
+                <img class="tiles__image" src="./images/pskov.jpg" alt="Башня Псковского Кремля">          
                 <div class="tiles__place">
                     <h2 class="tiles__title">Псков</h2>
-                    <div class="tiles__like"></div>
+                    <button type="button" class="tiles__like"></button>
                 </div>
             </div>
             <div class="tiles__item">
-                <img class="tiles__image" src="./images/kaluga.jpg" alt="Фото. Троицкий собор">     
+                <img class="tiles__image" src="./images/kaluga.jpg" alt="Троицкий собор в городе Калуга">     
                 <div class="tiles__place">
                     <h2 class="tiles__title">Калуга</h2>
-                    <div class="tiles__like"></div>
+                    <button type="button" class="tiles__like"></button>
                 </div>
             </div>
             <div class="tiles__item">
-                <img class="tiles__image" src="./images/teriberka.jpg" alt="Фото. Пляж Яйца дракона">          
+                <img class="tiles__image" src="./images/teriberka.jpg" alt="Пляж Яйца дракона, берег Северного-Ледовитого океана">          
                 <div class="tiles__place">
                     <h2 class="tiles__title">Териберка</h2>
-                    <div class="tiles__like"></div>
+                    <button type="button" class="tiles__like"></button>
                 </div>
             </div>
             <div class="tiles__item">
-                <img class="tiles__image" src="./images/sankt-pterburg.jpg" alt="Фото. Храм Спаса-на-крови">      
+                <img class="tiles__image" src="./images/sankt-pterburg.jpg" alt="Храм Спаса-на-крови">      
                 <div class="tiles__place">
                     <h2 class="tiles__title">Санкт-Петербург</h2>
-                    <div class="tiles__like"></div>
+                    <button type="button" class="tiles__like"></button>
                 </div>
             </div>
             <div class="tiles__item">
-                <img class="tiles__image" src="./images/petergof.jpg" alt="Фото. Морской канал">                
+                <img class="tiles__image" src="./images/petergof.jpg" alt="Морской канал в Петергофе, вид на большой дворец ">                
                 <div class="tiles__place">
                     <h2 class="tiles__title">Петергоф</h2>
-                    <div class="tiles__like"></div>
+                    <button type="button" class="tiles__like"></button>
                 </div>
             </div>
             <div class="tiles__item">
-                <img class="tiles__image" src="./images/serpuhov.jpg" alt="Фото. Собор Николая Чудотворца Белого">        
+                <img class="tiles__image" src="./images/serpuhov.jpg" alt="Собор Николая Чудотворца Белого">        
                 <div class="tiles__place">
                     <h2 class="tiles__title">Серпухов</h2>
-                    <div class="tiles__like"></div>
+                    <button type="button" class="tiles__like"></button>
                 </div>
             </div>
         </section> 
@@ -72,16 +72,18 @@
         <p class="footer__text">&copy; 2022 Mesto Russia</p>
     </footer>
     <div class="popup" id="profile-popup">
-        <form class="popup__container" id="profile-popup__container">
-            <div class="popup__close-button" id="profile-popup__close-button"></div>
+        <div class="popup__container">
+            <button type="reset" class="popup__close-button" id="profile-popup__close-button"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
-            <fieldset class="popup__inputs">
-                <input type="text" class="popup__input" id ="author-name-popup__input" name ="author-name" placeholder="Имя" required>
-                <input type="text" class="popup__input" id ="author-job-popup__input" name ="author-job" placeholder="Деятельность" required>
-                <input type="submit" class="popup__save-button" id="profile-popup__save-button" value="Сохранить">
-            </fieldset>
-        </form>
+            <form class = "popup__form" id="profile-popup__form" name="profile-edit-form">
+                <fieldset class="popup__inputs">
+                    <input type="text" class="popup__input" id ="author-name-popup__input" name ="author-name" placeholder="Имя" required>
+                    <input type="text" class="popup__input" id ="author-job-popup__input" name ="author-job" placeholder="Деятельность" required>
+                    <input type="submit" class="popup__save-button" id="profile-popup__save-button" value="Сохранить">
+                </fieldset>                
+            </form>
+        </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="./scripts/index.js"></script>
 </body>
 </html>
