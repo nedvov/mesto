@@ -138,7 +138,7 @@ function closeImage () {
 
 function imgError(image) {
     image.onerror = "";
-    image.src = "../images/ups2.png";
+    image.src = "./images/ups2.png";
     return true;
 }
 
