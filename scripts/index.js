@@ -26,15 +26,15 @@ const initialCards = [
 ];
 
 const tileTemplate = document.querySelector('#tile').content;
+const popups = document.querySelectorAll('.popup');
 
 const editButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.querySelector('#profile-popup');
-const formElement = document.querySelector('#profile-popup__form');
+const profileFormElement = document.querySelector('#profile-popup__form');
 const nameInput = document.querySelector('#author-name-popup__input');
 const jobInput = document.querySelector('#author-job-popup__input');
 const name = document.querySelector('.profile__author-name');
 const job = document.querySelector('.profile__author-job');
-const profileCloseButton = document.querySelector('#profile-popup__close-button');
 
 const tiles = document.querySelector('.tiles');
 const addButton = document.querySelector('.profile__add-button');
@@ -42,115 +42,99 @@ const tilesPopup = document.querySelector('#tiles-popup');
 const tilesFormElement = document.querySelector('#tiles-popup__form');
 const placeInput = document.querySelector('#place-name-popup__input');
 const linkInput = document.querySelector('#place-link-popup__input');
-const tilesCloseButton = document.querySelector('#tiles-popup__close-button');
 
 const imagePopup = document.querySelector('#image-popup');
 const popupImage = document.querySelector('.popup__image');
 const popupImageDescription = document.querySelector('.popup__image-description');
-const imageCloseButton = document.querySelector('#image-popup__close-button');
 
-function scale (target) {    
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+    popup.classList.remove('popup_hidden');
+}
+
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
+    popup.classList.add('popup_hidden');
+}
+
+function increaseImage (target) {    
     popupImage.src = target.src;
     popupImage.alt = target.alt;
     popupImageDescription.textContent = target.name;
-    imagePopup.classList.remove('popup_hidden');
-    imagePopup.classList.add('popup_opened');    
+    openPopup(imagePopup)
 }
 
-function like (target) {
+function likeTile (target) {
     target.classList.toggle('tiles__like_active');
 }
 
-function del (target) {
+function deleteTile (target) {
     target.parentElement.remove();
 }
 
-function create_tile (name, link) {
+function createTile (name, link) {
     const item = tileTemplate.querySelector('.tiles__item').cloneNode(true);
     const image = item.querySelector('.tiles__image');
     const title = item.querySelector('.tiles__title');
+    const like = item.querySelector('.tiles__like');
+    const deleteButton = item.querySelector('.tiles__delete-button');
     image.src = link;
     image.name = name;
     image.alt = name;
     title.textContent = name;
-    tiles.prepend(item);
+    image.addEventListener('click', (evt) => increaseImage(evt.target));
+    like.addEventListener('click', (evt) => likeTile(evt.target));
+    deleteButton.addEventListener('click', (evt) => deleteTile(evt.target));
+    return item;
 }
 
-function formSubmitHandler (evt) {
+function submitProfileForm (evt) {
 	evt.preventDefault();
     name.textContent = nameInput.value;
     job.textContent = jobInput.value;
-    profilePopup.classList.add('popup_hidden');
-    profilePopup.classList.remove('popup_opened');
+    closePopup(profilePopup);
     window.scrollTo(0, 0);
 }
 
-function tilesFormSubmitHandler (evt) {
+function submitTilesForm (evt) {
 	evt.preventDefault();
-    create_tile (placeInput.value, linkInput.value);
-    tilesPopup.classList.add('popup_hidden');
-    tilesPopup.classList.remove('popup_opened');
+    const item = createTile (placeInput.value, linkInput.value);
+    tiles.prepend(item);
+    closePopup(tilesPopup);
+    tilesFormElement.reset();
     window.scrollTo(0, 0);
-    placeInput.value = '';
-    linkInput.value = '';
 }
 
-function editProfile () {
-    nameInput.value = name.textContent;
-    jobInput.value = job.textContent;
-    profilePopup.classList.add('popup_opened');
-    profilePopup.classList.remove('popup_hidden');
-}
-
-function closeProfile () {
-    profilePopup.classList.add('popup_hidden');
-    profilePopup.classList.remove('popup_opened');
-}
-
-function addTile () {
-    tilesPopup.classList.add('popup_opened');
-    tilesPopup.classList.remove('popup_hidden');
-}
-
-function closeTile () {
-    tilesPopup.classList.add('popup_hidden');
-    tilesPopup.classList.remove('popup_opened');
-    placeInput.value = '';
-    linkInput.value = '';
-}
-
-function closeImage () {
-    imagePopup.classList.add('popup_hidden');
-    imagePopup.classList.remove('popup_opened');
-}
-
-function imgError(image) {
+function getImageError(image) {
     image.onerror = "";
     image.src = "./images/ups2.png";
     return true;
 }
 
-function clickTile (event) {
-    if (event.target.classList.contains("tiles__like")) {
-        like(event.target)
-    }
-    else if (event.target.classList.contains("tiles__delete-button")) {
-        del(event.target);
-    }
-    else if (event.target.classList.contains("tiles__image")) {
-        scale (event.target);
-    }
-}
-
 for (let i = 0; i < initialCards.length; i++) {
-    create_tile (initialCards[i].name, initialCards[i].link);
+    const item = createTile (initialCards[i].name, initialCards[i].link);
+    tiles.prepend(item);
 }
 
-editButton.addEventListener('click', editProfile);
-profileCloseButton.addEventListener('click', closeProfile);
-formElement.addEventListener('submit', formSubmitHandler);
-addButton.addEventListener('click', addTile);
-tilesCloseButton.addEventListener('click', closeTile);
-imageCloseButton.addEventListener('click', closeImage);
-tilesFormElement.addEventListener('submit', tilesFormSubmitHandler);
-tiles.addEventListener('click', clickTile);
+editButton.addEventListener('click', () => {
+    nameInput.value = name.textContent;
+    jobInput.value = job.textContent;
+    openPopup(profilePopup);
+});
+
+addButton.addEventListener('click', () => openPopup(tilesPopup));
+
+profileFormElement.addEventListener('submit', submitProfileForm);
+tilesFormElement.addEventListener('submit', submitTilesForm);
+
+popups.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+       if (evt.target.classList.contains('popup__close-button') && popup.id === 'tiles-popup') {
+            closePopup(popup);
+            tilesFormElement.reset();
+        }
+        else if (evt.target.classList.contains('popup__close-button') && popup.id != 'tiles-popup') {
+            closePopup(popup);
+        }
+    })
+})
