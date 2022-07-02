@@ -25,27 +25,29 @@ const initialCards = [
     }
 ];
 
-let editButton = document.querySelector('.profile__edit-button');
-let profilePopup = document.querySelector('#profile-popup');
-let formElement = document.querySelector('#profile-popup__form');
-let nameInput = document.querySelector('#author-name-popup__input');
-let jobInput = document.querySelector('#author-job-popup__input');
-let name = document.querySelector('.profile__author-name');
-let job = document.querySelector('.profile__author-job');
-let profileCloseButton = document.querySelector('#profile-popup__close-button');
+const tileTemplate = document.querySelector('#tile').content;
 
-let tiles = document.querySelector('.tiles');
-let addButton = document.querySelector('.profile__add-button');
-let tilesPopup = document.querySelector('#tiles-popup');
-let tilesFormElement = document.querySelector('#tiles-popup__form');
-let placeInput = document.querySelector('#place-name-popup__input');
-let linkInput = document.querySelector('#place-link-popup__input');
-let tilesCloseButton = document.querySelector('#tiles-popup__close-button');
+const editButton = document.querySelector('.profile__edit-button');
+const profilePopup = document.querySelector('#profile-popup');
+const formElement = document.querySelector('#profile-popup__form');
+const nameInput = document.querySelector('#author-name-popup__input');
+const jobInput = document.querySelector('#author-job-popup__input');
+const name = document.querySelector('.profile__author-name');
+const job = document.querySelector('.profile__author-job');
+const profileCloseButton = document.querySelector('#profile-popup__close-button');
 
-let imagePopup = document.querySelector('#image-popup');
-let popupImage = document.querySelector('.popup__image');
-let popupImageDescription = document.querySelector('.popup__image-description');
-let imageCloseButton = document.querySelector('#image-popup__close-button');
+const tiles = document.querySelector('.tiles');
+const addButton = document.querySelector('.profile__add-button');
+const tilesPopup = document.querySelector('#tiles-popup');
+const tilesFormElement = document.querySelector('#tiles-popup__form');
+const placeInput = document.querySelector('#place-name-popup__input');
+const linkInput = document.querySelector('#place-link-popup__input');
+const tilesCloseButton = document.querySelector('#tiles-popup__close-button');
+
+const imagePopup = document.querySelector('#image-popup');
+const popupImage = document.querySelector('.popup__image');
+const popupImageDescription = document.querySelector('.popup__image-description');
+const imageCloseButton = document.querySelector('#image-popup__close-button');
 
 function scale (target) {    
     popupImage.src = target.src;
@@ -64,27 +66,13 @@ function del (target) {
 }
 
 function create_tile (name, link) {
-    let item = document.createElement('div');
-    let image = document.createElement('img');
-    let place = document.createElement('div');
-    let title = document.createElement('h2');
-    let likeButton = document.createElement('button');
-    let deleteButton = document.createElement('button');
-    item.className = "tiles__item";
-    image.className = "tiles__image";
-    place.className = "tiles__place";
-    title.className = "tiles__title";
-    likeButton.className = "tiles__like";
-    deleteButton.className = "tiles__delete-button";
+    const item = tileTemplate.querySelector('.tiles__item').cloneNode(true);
+    const image = item.querySelector('.tiles__image');
+    const title = item.querySelector('.tiles__title');
     image.src = link;
     image.name = name;
     image.alt = name;
-    image.setAttribute("onerror", "imgError(this);");
-    deleteButton.type = "button";
-    likeButton.type = "button";
     title.textContent = name;
-    place.append(title, likeButton);
-    item.append(image, place, deleteButton);
     tiles.prepend(item);
 }
 

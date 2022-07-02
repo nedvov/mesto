@@ -62,6 +62,16 @@
             <p class="popup__image-description">Псков</p>
         </div>
     </div>
+    <template id="tile">
+        <div class="tiles__item">
+            <img class="tiles__image" onerror="imgError(this);">   
+            <div class="tiles__place">
+                <h2 class="tiles__title">Петергоф</h2>
+                <button class="tiles__like" type="button"></button>
+            </div>
+            <button class="tiles__delete-button" type="button"></button>
+        </div>
+    </template>
     <script src="./scripts/index.js"></script>
 </body>
 </html>
