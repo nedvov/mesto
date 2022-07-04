@@ -47,21 +47,52 @@ const imagePopup = document.querySelector('#image-popup');
 const popupImage = document.querySelector('.popup__image');
 const popupImageDescription = document.querySelector('.popup__image-description');
 
+const validationData = {
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-button',
+    inputErrorClass: 'popup__input_active'
+  };
+
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     popup.classList.remove('popup_hidden');
+    if (popup.id != 'image-popup') {
+        checkSubmitButtonState(popup, validationData);
+    }
+    document.addEventListener('keydown', closeByEscape)
 }
 
 function closePopup(popup) {
+    const inputs = popup.querySelectorAll('.popup__input');
+    const inputErrors = popup.querySelectorAll('.popup__input-error');
+    const form = popup.querySelector('.popup__form'); 
+    inputs.forEach(element => {
+        element.blur();
+        element.classList.remove('popup__input_active');
+    })
+    inputErrors.forEach(element => {
+        element.textContent = '';
+    })
+    if (popup.id != 'image-popup') {
+        form.reset();
+    }    
     popup.classList.remove('popup_opened');
     popup.classList.add('popup_hidden');
+    document.removeEventListener('keydown', closeByEscape)
+}
+
+function closeByEscape(evt) {
+    if (evt.key == 'Escape') {
+        const openPopup = document.querySelector('.popup_opened')
+        closePopup(openPopup);
+    }
 }
 
 function increaseImage (target) {    
     popupImage.src = target.src;
     popupImage.alt = target.alt;
     popupImageDescription.textContent = target.name;
-    openPopup(imagePopup)
+    openPopup(imagePopup);
 }
 
 function likeTile (target) {
@@ -82,9 +113,6 @@ function createTile (name, link) {
     image.name = name;
     image.alt = name;
     title.textContent = name;
-    image.addEventListener('click', (evt) => increaseImage(evt.target));
-    like.addEventListener('click', (evt) => likeTile(evt.target));
-    deleteButton.addEventListener('click', (evt) => deleteTile(evt.target));
     return item;
 }
 
@@ -101,7 +129,6 @@ function submitTilesForm (evt) {
     const item = createTile (placeInput.value, linkInput.value);
     tiles.prepend(item);
     closePopup(tilesPopup);
-    tilesFormElement.reset();
     window.scrollTo(0, 0);
 }
 
@@ -110,6 +137,36 @@ function getImageError(image) {
     image.src = "./images/ups2.png";
     return true;
 }
+
+function clickTile (evt) {
+    if (evt.target.classList.contains("tiles__like")) {
+        likeTile(evt.target)
+    }
+    else if (evt.target.classList.contains("tiles__delete-button")) {
+        deleteTile(evt.target);
+    }
+    else if (evt.target.classList.contains("tiles__image")) {
+        increaseImage (evt.target);
+    }
+}
+
+function profile_save_button_state() {
+    if (nameInput.checkValidity() && jobInput.checkValidity()) {
+        profile_save_button.removeAttribute("disabled")
+    }
+    else {
+        profile_save_button.setAttribute("disabled", true)
+    }
+};
+
+function tiles_save_button_state() {
+    if (placeInput.checkValidity() && linkInput.checkValidity()) {
+        tiles_save_button.removeAttribute("disabled")
+    }
+    else {
+        tiles_save_button.setAttribute("disabled", true)
+    }
+};
 
 for (let i = 0; i < initialCards.length; i++) {
     const item = createTile (initialCards[i].name, initialCards[i].link);
@@ -127,13 +184,12 @@ addButton.addEventListener('click', () => openPopup(tilesPopup));
 profileFormElement.addEventListener('submit', submitProfileForm);
 tilesFormElement.addEventListener('submit', submitTilesForm);
 
+tiles.addEventListener('click', clickTile);
+
 popups.forEach((popup) => {
     popup.addEventListener('click', (evt) => {
-       if (evt.target.classList.contains('popup__close-button') && popup.id === 'tiles-popup') {
-            closePopup(popup);
-            tilesFormElement.reset();
-        }
-        else if (evt.target.classList.contains('popup__close-button') && popup.id != 'tiles-popup') {
+        const withinBoundaries = evt.composedPath().includes(popup.children[0]);
+        if (evt.target.classList.contains('popup__close-button') || (!withinBoundaries)) {
             closePopup(popup);
         }
     })

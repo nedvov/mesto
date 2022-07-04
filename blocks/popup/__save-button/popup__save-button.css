@@ -20,6 +20,12 @@
     cursor: pointer;
 }
 
+.popup__save-button:disabled,  .popup__save-button:disabled:hover{
+    background-color: #ffffff;
+    border: 1px solid #E5E5E5;
+    color: #E5E5E5;
+}
+
 @media screen and (max-width:767px) {
     .popup__save-button {
         margin: 15px 0 0;

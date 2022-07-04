@@ -35,8 +35,10 @@
             <h2 class="popup__title">Редактировать профиль</h2>
             <form class = "popup__form" id="profile-popup__form" name="profile-edit-form">
                 <fieldset class="popup__inputs">
-                    <input type="text" class="popup__input" id ="author-name-popup__input" name ="author-name" placeholder="Имя" required>
-                    <input type="text" class="popup__input" id ="author-job-popup__input" name ="author-job" placeholder="Деятельность" required>
+                    <input type="text" class="popup__input" id ="author-name-popup__input" name ="author-name" placeholder="Имя" required minlength="2" maxlength="40">
+                    <span class="popup__input-error" id="author-name-popup__input-error"></span>
+                    <input type="text" class="popup__input" id ="author-job-popup__input" name ="author-job" placeholder="Деятельность" required minlength="2" maxlength="200">
+                    <span class="popup__input-error" id="author-job-popup__input-error"></span>
                     <input type="submit" class="popup__save-button" id="profile-popup__save-button" value="Сохранить">
                 </fieldset>                
             </form>
@@ -48,8 +50,10 @@
             <h2 class="popup__title">Новое место</h2>
             <form class = "popup__form" id="tiles-popup__form" name="tiles-edit-form">
                 <fieldset class="popup__inputs">
-                    <input type="text" class="popup__input" id ="place-name-popup__input" name ="place-name" placeholder="Название" required>
+                    <input type="text" class="popup__input" id ="place-name-popup__input" name ="place-name" placeholder="Название" required minlength="1" maxlength="30">
+                    <span class="popup__input-error" id="place-name-popup__input-error"></span>
                     <input type="url" class="popup__input" id ="place-link-popup__input" name ="place-link" placeholder="Ссылка на картинку" required>
+                    <span class="popup__input-error" id="place-link-popup__input-error"></span>
                     <input type="submit" class="popup__save-button" id="tiles-popup__save-button" value="Сохранить">
                 </fieldset>
             </form>
@@ -73,5 +77,6 @@
         </div>
     </template>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 </html>
