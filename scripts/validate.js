@@ -34,4 +34,4 @@ function enableValidation(data) {
     setEventListeners(inputs, data);
 }
 
-enableValidation(validationData);
+enableValidation(dataForValidation);
