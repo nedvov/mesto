@@ -27,9 +27,6 @@ function clearForm(popup) {
 function closeByEscape(evt) {
     if (evt.key == 'Escape') {
         const openPopup = document.querySelector('.popup_opened');
-        if (openPopup.id != 'image-popup') {
-            clearForm(openPopup);
-        }   
         closePopup(openPopup);
     }
 }
@@ -65,7 +62,6 @@ function submitProfileForm (evt) {
     name.textContent = nameInput.value;
     job.textContent = jobInput.value;
     closePopup(profilePopup);
-    clearForm(profilePopup);
     window.scrollTo(0, 0);
 }
 
@@ -74,7 +70,6 @@ function submitTilesForm (evt) {
     const item = createTile (placeInput.value, linkInput.value);
     tiles.prepend(item);
     closePopup(tilesPopup);
-    clearForm(tilesPopup);
     window.scrollTo(0, 0);
 }
 
@@ -102,15 +97,17 @@ for (let i = 0; i < initialCards.length; i++) {
 }
 
 profileEditButton.addEventListener('click', () => {
+    clearForm(profilePopup);
     nameInput.value = name.textContent;
-    jobInput.value = job.textContent;
-    openPopup(profilePopup);
+    jobInput.value = job.textContent;    
     checkSubmitButtonState(profilePopup, dataForValidation);
+    openPopup(profilePopup);
 });
 
 tilesAddButton.addEventListener('click', () => {
-    openPopup(tilesPopup)
+    clearForm(tilesPopup);
     checkSubmitButtonState(tilesPopup, dataForValidation);
+    openPopup(tilesPopup)    
 });
 
 profileFormElement.addEventListener('submit', submitProfileForm);
@@ -123,9 +120,6 @@ popups.forEach((popup) => {
         const withinBoundaries = evt.composedPath().includes(popup.children[0]);
         if (evt.target.classList.contains('popup__close-button') || (!withinBoundaries)) {
             closePopup(popup);
-            if (popup.id != 'image-popup') {
-                clearForm(popup);
-            } 
         }
     })
 })
