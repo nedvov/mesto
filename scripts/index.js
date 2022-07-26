@@ -1,26 +1,10 @@
 import * as consts from './consts.js';
+import {openPopup, closePopup} from './utils.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 
-export default function openPopup(popup) {
-    popup.classList.add('popup_opened');
-    popup.classList.remove('popup_hidden');
-    document.addEventListener('keydown', closeByEscape)
-}
-
-function closePopup(popup) {
-    popup.classList.remove('popup_opened');
-    popup.classList.add('popup_hidden');
-    document.removeEventListener('keydown', closeByEscape)
-}
-
-function closeByEscape(evt) {
-    if (evt.key == 'Escape') {
-        evt.preventDefault();
-        const openPopup = document.querySelector('.popup_opened');
-        closePopup(openPopup);
-    }
-}
+const tilesFormValidator = new FormValidator(consts.formSelectors, consts.tilesFormElement)
+const profileFormValidator = new FormValidator(consts.formSelectors, consts.profileFormElement)
 
 function submitProfileForm (evt) {
 	evt.preventDefault();
@@ -40,15 +24,15 @@ function submitTilesForm (evt) {
 consts.profileEditButton.addEventListener('click', () => {
     consts.nameInput.value = consts.name.textContent;
     consts.jobInput.value = consts.job.textContent;    
-    new FormValidator(consts.formSelectors, consts.profilePopup).enableValidation();
+    profileFormValidator.enableValidation();
     openPopup(consts.profilePopup);
 });
 
 consts.tilesAddButton.addEventListener('click', () => {
-    const tilesForm = consts.tilesPopup.querySelector('.popup__form'); 
-    tilesForm.reset();
-    new FormValidator(consts.formSelectors, tilesForm).enableValidation();
+    consts.tilesFormElement.reset();
+    tilesFormValidator.enableValidation();
     openPopup(consts.tilesPopup);    
+    //деактивация кнопки сабмита происходит при открытии формы добавления карточки при вызове .enableValidation()
 });
 
 consts.profileFormElement.addEventListener('submit', submitProfileForm);

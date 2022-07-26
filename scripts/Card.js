@@ -1,4 +1,4 @@
-import openPopup from './index.js';
+import {openPopup} from './utils.js';
 import {popupImage, popupImageDescription, imagePopup} from './consts.js';
 
 export default class Card {
@@ -8,19 +8,20 @@ export default class Card {
       this._selectors = selectors;
     }
 
-    #increaseImage (target) {    
-        popupImage.src = target.src;
-        popupImage.alt = target.alt;
-        popupImageDescription.textContent = target.name;
+    #increaseImage () {   
+        popupImage.src = this._image.src;
+        popupImage.alt = this._image.alt;
+        popupImageDescription.textContent = this._image.name;
         openPopup(imagePopup);
     }
     
-    #likeTile (target) {
-        target.classList.toggle(this._selectors.likeActiveSelector);
+    #likeTile () {
+        this._like.classList.toggle(this._selectors.likeActiveSelector);
     }
     
-    #deleteTile (target) {
-        target.parentElement.remove();
+    #deleteTile () {
+        this._item.remove();
+        this._item.innerHTML = '';
     }
 
     #getTemplate () {
@@ -33,21 +34,21 @@ export default class Card {
     }
 
     #setEventListeners() {
-        const like = this._item.querySelector(this._selectors.likeSelector); 
-        const deleteButton = this._item.querySelector(this._selectors.cardDeleteButtonSelector);
-        this._image.addEventListener('click', (evt) => this.#increaseImage(evt.target)); 
-        like.addEventListener('click', (evt) => this.#likeTile(evt.target));    
-        deleteButton.addEventListener('click', (evt) => this.#deleteTile(evt.target));
+        this._like = this._item.querySelector(this._selectors.likeSelector); 
+        this._deleteButton = this._item.querySelector(this._selectors.cardDeleteButtonSelector);
+        this._image.addEventListener('click', () => this.#increaseImage());
+        this._like.addEventListener('click', () => this.#likeTile());    
+        this._deleteButton.addEventListener('click', () => this.#deleteTile());
     }
 
     returnTile () {
         this._item = this.#getTemplate();
         this._image = this._item.querySelector(this._selectors.imageSelector);
-        const title = this._item.querySelector(this._selectors.titleSelector);
+        this._title = this._item.querySelector(this._selectors.titleSelector);
         this._image.src = this._link;
         this._image.name = this._name;
         this._image.alt = this._name;
-        title.textContent = this._name;
+        this._title.textContent = this._name;
         this.#setEventListeners();
         return this._item
     }

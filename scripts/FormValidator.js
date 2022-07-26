@@ -2,50 +2,48 @@ export default class FormValidator {
     constructor(selectors, objectForValidation) {
         this.selectors = selectors;
         this.objectForValidation = objectForValidation;
+        this._inputList = Array.from(this.objectForValidation.querySelectorAll(this.selectors.inputSelector));
+        this._submitButton = this.objectForValidation.querySelector(this.selectors.submitButtonSelector);
+        this._inputErrors = Array.from(this.objectForValidation.querySelectorAll(this.selectors.inputError)); 
     }
-    #clearForm(objectForValidation, {inputSelector, inputError, inputActive, ...rest}) {
-        const inputs = objectForValidation.querySelectorAll(inputSelector);
-        const inputErrors = objectForValidation.querySelectorAll(inputError);
-        inputs.forEach(element => {
+    #clearForm() {
+        this._inputList.forEach(element => {
             element.blur();
-            element.classList.remove(inputActive);
+            element.classList.remove(this.selectors.inputActive);
         })
-        inputErrors.forEach(element => {
+        this._inputErrors.forEach(element => {
             element.textContent = '';
         })
     }
-    #checkSubmitButtonState(objectForValidation, {inputSelector, submitButtonSelector, ...rest}) {
-        const popupInputs = Array.from(objectForValidation.querySelectorAll(inputSelector));
-        const saveButton = objectForValidation.querySelector(submitButtonSelector);
-        const validity = popupInputs.every(element => {return element.validity.valid})
+    #checkSubmitButtonState() {
+        const validity = this._inputList.every(element => {return element.validity.valid})
         if (validity) {
-            saveButton.removeAttribute("disabled")
+            this._submitButton.removeAttribute("disabled")
         }
         else {
-            saveButton.setAttribute("disabled", true)
+            this._submitButton.setAttribute("disabled", true)
         }
     }
-    #checkInput(input, inputActive) {
+    #checkInput(input) {
         if (input.validity.valid) {
             input.nextElementSibling.textContent= "";
         }
         else {      
             input.nextElementSibling.textContent=input.validationMessage;
-            input.classList.add(inputActive);
+            input.classList.add(this.selectors.inputActive);
         };
     }
-    #setEventListeners(inputs, {inputActive, ...rest}) {
-        inputs.forEach(element => {
+    #setEventListeners() {
+        this._inputList.forEach(element => {
             element.addEventListener("input", () => {
-                this.#checkInput(element, inputActive)
-                this.#checkSubmitButtonState(element.parentNode, rest)
+                this.#checkInput(element)
+                this.#checkSubmitButtonState()
             })   
         })
     }
     enableValidation() {
-        this.#clearForm(this.objectForValidation, this.selectors);
-        this.#checkSubmitButtonState(this.objectForValidation, this.selectors);
-        const inputs = this.objectForValidation.querySelectorAll(this.selectors.inputSelector);
-        this.#setEventListeners(inputs, this.selectors);
+        this.#clearForm();
+        this.#checkSubmitButtonState();
+        this.#setEventListeners();
     }
 }
