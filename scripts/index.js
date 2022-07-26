@@ -1,4 +1,8 @@
-function openPopup(popup) {
+import * as consts from './consts.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
+export default function openPopup(popup) {
     popup.classList.add('popup_opened');
     popup.classList.remove('popup_hidden');
     document.addEventListener('keydown', closeByEscape)
@@ -10,112 +14,47 @@ function closePopup(popup) {
     document.removeEventListener('keydown', closeByEscape)
 }
 
-function clearForm(popup) {
-    const inputs = popup.querySelectorAll('.popup__input');
-    const inputErrors = popup.querySelectorAll('.popup__input-error');
-    const form = popup.querySelector('.popup__form'); 
-    inputs.forEach(element => {
-        element.blur();
-        element.classList.remove('popup__input_active');
-    })
-    inputErrors.forEach(element => {
-        element.textContent = '';
-    })
-    form.reset();
-}
-
 function closeByEscape(evt) {
     if (evt.key == 'Escape') {
+        evt.preventDefault();
         const openPopup = document.querySelector('.popup_opened');
         closePopup(openPopup);
     }
 }
 
-function increaseImage (target) {    
-    popupImage.src = target.src;
-    popupImage.alt = target.alt;
-    popupImageDescription.textContent = target.name;
-    openPopup(imagePopup);
-}
-
-function likeTile (target) {
-    target.classList.toggle('tiles__like_active');
-}
-
-function deleteTile (target) {
-    target.parentElement.remove();
-}
-
-function createTile (name, link) {
-    const item = tileTemplate.querySelector('.tiles__item').cloneNode(true);
-    const image = item.querySelector('.tiles__image');
-    const title = item.querySelector('.tiles__title');
-    image.src = link;
-    image.name = name;
-    image.alt = name;
-    title.textContent = name;
-    return item;
-}
-
 function submitProfileForm (evt) {
 	evt.preventDefault();
-    name.textContent = nameInput.value;
-    job.textContent = jobInput.value;
-    closePopup(profilePopup);
+    consts.name.textContent = consts.nameInput.value;
+    consts.job.textContent = consts.jobInput.value;
+    closePopup(consts.profilePopup);
     window.scrollTo(0, 0);
 }
 
 function submitTilesForm (evt) {
 	evt.preventDefault();
-    const item = createTile (placeInput.value, linkInput.value);
-    tiles.prepend(item);
-    closePopup(tilesPopup);
+    consts.tiles.prepend(new Card(consts.placeInput.value, consts.linkInput.value, consts.cardSelectors).returnTile());
+    closePopup(consts.tilesPopup);
     window.scrollTo(0, 0);
 }
 
-function getImageError(image) {
-    image.onerror = "";
-    image.src = "./images/ups2.png";
-    return true;
-}
-
-function clickTile (evt) {
-    if (evt.target.classList.contains("tiles__like")) {
-        likeTile(evt.target)
-    }
-    else if (evt.target.classList.contains("tiles__delete-button")) {
-        deleteTile(evt.target);
-    }
-    else if (evt.target.classList.contains("tiles__image")) {
-        increaseImage (evt.target);
-    }
-}
-
-for (let i = 0; i < initialCards.length; i++) {
-    const item = createTile (initialCards[i].name, initialCards[i].link);
-    tiles.prepend(item);
-}
-
-profileEditButton.addEventListener('click', () => {
-    clearForm(profilePopup);
-    nameInput.value = name.textContent;
-    jobInput.value = job.textContent;    
-    checkSubmitButtonState(profilePopup, dataForValidation);
-    openPopup(profilePopup);
+consts.profileEditButton.addEventListener('click', () => {
+    consts.nameInput.value = consts.name.textContent;
+    consts.jobInput.value = consts.job.textContent;    
+    new FormValidator(consts.formSelectors, consts.profilePopup).enableValidation();
+    openPopup(consts.profilePopup);
 });
 
-tilesAddButton.addEventListener('click', () => {
-    clearForm(tilesPopup);
-    checkSubmitButtonState(tilesPopup, dataForValidation);
-    openPopup(tilesPopup)    
+consts.tilesAddButton.addEventListener('click', () => {
+    const tilesForm = consts.tilesPopup.querySelector('.popup__form'); 
+    tilesForm.reset();
+    new FormValidator(consts.formSelectors, tilesForm).enableValidation();
+    openPopup(consts.tilesPopup);    
 });
 
-profileFormElement.addEventListener('submit', submitProfileForm);
-tilesFormElement.addEventListener('submit', submitTilesForm);
+consts.profileFormElement.addEventListener('submit', submitProfileForm);
+consts.tilesFormElement.addEventListener('submit', submitTilesForm);
 
-tiles.addEventListener('click', clickTile);
-
-popups.forEach((popup) => {
+consts.popups.forEach((popup) => {
     popup.addEventListener('click', (evt) => {
         const withinBoundaries = evt.composedPath().includes(popup.children[0]);
         if (evt.target.classList.contains('popup__close-button') || (!withinBoundaries)) {
@@ -123,3 +62,7 @@ popups.forEach((popup) => {
         }
     })
 })
+
+for (let i = 0; i < consts.initialCards.length; i++) {
+    consts.tiles.prepend(new Card(consts.initialCards[i].name, consts.initialCards[i].link, consts.cardSelectors).returnTile());
+}
