@@ -6,7 +6,7 @@ export default class FormValidator {
         this._submitButton = this.objectForValidation.querySelector(this.selectors.submitButtonSelector);
         this._inputErrors = Array.from(this.objectForValidation.querySelectorAll(this.selectors.inputError)); 
     }
-    #clearForm() {
+    clearForm() {
         this._inputList.forEach(element => {
             element.blur();
             element.classList.remove(this.selectors.inputActive);
@@ -42,7 +42,7 @@ export default class FormValidator {
         })
     }
     enableValidation() {
-        this.#clearForm();
+        this.clearForm();
         this.checkSubmitButtonState();
         this.#setEventListeners();
     }

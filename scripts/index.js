@@ -27,12 +27,14 @@ function submitTilesForm (evt) {
 consts.profileEditButton.addEventListener('click', () => {
     consts.nameInput.value = consts.name.textContent;
     consts.jobInput.value = consts.job.textContent;
+    profileFormValidator.clearForm();
     profileFormValidator.checkSubmitButtonState();    
     openPopup(consts.profilePopup);
 });
 
 consts.tilesAddButton.addEventListener('click', () => {
     consts.tilesFormElement.reset();
+    tilesFormValidator.clearForm();
     tilesFormValidator.checkSubmitButtonState();    
     openPopup(consts.tilesPopup);    
     //деактивация кнопки сабмита происходит при открытии формы добавления карточки при вызове .enableValidation()
