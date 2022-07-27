@@ -26,7 +26,8 @@ function submitTilesForm (evt) {
 
 consts.profileEditButton.addEventListener('click', () => {
     consts.nameInput.value = consts.name.textContent;
-    consts.jobInput.value = consts.job.textContent;    
+    consts.jobInput.value = consts.job.textContent;
+    profileFormValidator.checkSubmitButtonState();    
     openPopup(consts.profilePopup);
 });
 
