@@ -6,6 +6,9 @@ import FormValidator from './FormValidator.js';
 const tilesFormValidator = new FormValidator(consts.formSelectors, consts.tilesFormElement)
 const profileFormValidator = new FormValidator(consts.formSelectors, consts.profileFormElement)
 
+tilesFormValidator.enableValidation();
+profileFormValidator.enableValidation();
+
 function submitProfileForm (evt) {
 	evt.preventDefault();
     consts.name.textContent = consts.nameInput.value;
@@ -24,13 +27,12 @@ function submitTilesForm (evt) {
 consts.profileEditButton.addEventListener('click', () => {
     consts.nameInput.value = consts.name.textContent;
     consts.jobInput.value = consts.job.textContent;    
-    profileFormValidator.enableValidation();
     openPopup(consts.profilePopup);
 });
 
 consts.tilesAddButton.addEventListener('click', () => {
     consts.tilesFormElement.reset();
-    tilesFormValidator.enableValidation();
+    tilesFormValidator.checkSubmitButtonState();    
     openPopup(consts.tilesPopup);    
     //деактивация кнопки сабмита происходит при открытии формы добавления карточки при вызове .enableValidation()
 });

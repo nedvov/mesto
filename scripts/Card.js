@@ -21,7 +21,7 @@ export default class Card {
     
     #deleteTile () {
         this._item.remove();
-        this._item.innerHTML = '';
+        this._item = null;
     }
 
     #getTemplate () {

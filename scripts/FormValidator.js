@@ -15,7 +15,7 @@ export default class FormValidator {
             element.textContent = '';
         })
     }
-    #checkSubmitButtonState() {
+    checkSubmitButtonState() {
         const validity = this._inputList.every(element => {return element.validity.valid})
         if (validity) {
             this._submitButton.removeAttribute("disabled")
@@ -37,13 +37,13 @@ export default class FormValidator {
         this._inputList.forEach(element => {
             element.addEventListener("input", () => {
                 this.#checkInput(element)
-                this.#checkSubmitButtonState()
+                this.checkSubmitButtonState()
             })   
         })
     }
     enableValidation() {
         this.#clearForm();
-        this.#checkSubmitButtonState();
+        this.checkSubmitButtonState();
         this.#setEventListeners();
     }
 }
