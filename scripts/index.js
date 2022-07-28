@@ -37,7 +37,6 @@ consts.tilesAddButton.addEventListener('click', () => {
     tilesFormValidator.clearForm();
     tilesFormValidator.checkSubmitButtonState();    
     openPopup(consts.tilesPopup);    
-    //деактивация кнопки сабмита происходит при открытии формы добавления карточки при вызове .enableValidation()
 });
 
 consts.profileFormElement.addEventListener('submit', submitProfileForm);
