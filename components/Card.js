@@ -1,18 +1,9 @@
-import {openPopup} from './utils.js';
-import {popupImage, popupImageDescription, imagePopup} from './consts.js';
-
 export default class Card {
-    constructor(name, link, selectors) {
-      this._name = name;
-      this._link = link;
-      this._selectors = selectors;
-    }
-
-    #increaseImage () {   
-        popupImage.src = this._image.src;
-        popupImage.alt = this._image.alt;
-        popupImageDescription.textContent = this._image.name;
-        openPopup(imagePopup);
+    constructor({name, link}, selectors, handleCardClick) {
+        this._name = name;
+        this._link = link;
+        this._selectors = selectors;
+        this._handleCardClick = handleCardClick;
     }
     
     #likeTile () {
@@ -36,7 +27,7 @@ export default class Card {
     #setEventListeners() {
         this._like = this._item.querySelector(this._selectors.likeSelector); 
         this._deleteButton = this._item.querySelector(this._selectors.cardDeleteButtonSelector);
-        this._image.addEventListener('click', () => this.#increaseImage());
+        this._image.addEventListener('click', () => this._handleCardClick(this._image));
         this._like.addEventListener('click', () => this.#likeTile());    
         this._deleteButton.addEventListener('click', () => this.#deleteTile());
     }
