@@ -6,6 +6,7 @@ import FormValidator from '../components/FormValidator.js';
 import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
 import {getImageError} from '../utils/utils.js';
+import './index.css';
 
 const tilesRenderer = (target) => {
   return(new Card(target, cardSelectors, imagePopup.openPopup.bind(imagePopup)).returnTile())
