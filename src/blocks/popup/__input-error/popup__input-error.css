@@ -1,5 +1,5 @@
 .popup__input-error {
-    height: 48px;
+    min-height: 30px;
     margin: 0;
     padding: 5px 0 13px;
     font-family: 'Inter';

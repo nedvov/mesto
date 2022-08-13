@@ -7,13 +7,13 @@ export default class Popup {
 
     openPopup() {
         this._popup.classList.add(this._popupSelectors.openSelector);
-        this._popup.classList.remove(this._popupSelectors.hiddenSelector);
+        // this._popup.classList.remove(this._popupSelectors.hiddenSelector);
         document.addEventListener('keydown', this._handleEscClose)
     }
 
     closePopup() {
         this._popup.classList.remove(this._popupSelectors.openSelector);
-        this._popup.classList.add(this._popupSelectors.hiddenSelector);
+        // this._popup.classList.add(this._popupSelectors.hiddenSelector);
         document.removeEventListener('keydown', this._handleEscClose);
     }
 

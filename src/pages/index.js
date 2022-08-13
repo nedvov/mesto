@@ -13,11 +13,11 @@ const tilesRenderer = (target) => {
 }
 
 const tilesCallback = (target) => {
-  tilesSection.addItem(tilesRenderer(target._getInputValues()));
+  tilesSection.addItem(tilesRenderer(target));
 }
 
 const profileCallback = (target) => {
-  UserProfile.setUserInfo(target._getInputValues())
+  UserProfile.setUserInfo(target)
 }
 
 const tilesSectionData = {
@@ -45,7 +45,7 @@ tilesFormValidator.enableValidation();
 tilesSection.renderSection();
 
 profileEditButton.addEventListener('click', () => {
-    profilePopup.setInputValues(UserProfile.getUserInfo().name, UserProfile.getUserInfo().job)
+    profilePopup.setInputValues(UserProfile.getUserInfo())
     profileFormValidator.clearForm();
     profileFormValidator.checkSubmitButtonState();
     profilePopup.openPopup();
