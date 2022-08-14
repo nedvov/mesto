@@ -4,8 +4,8 @@ export default class PopupWithImage extends Popup {
     constructor(popupSelector, selectors) {
         super(popupSelector, selectors);
         this._popupSelectors = selectors;
-        this._popupImage = document.querySelector(this._popupSelectors.popupImage);
-        this._popupImageDescription = document.querySelector(this._popupSelectors.popupImageDescription);
+        this._popupImage = this._popup.querySelector(this._popupSelectors.popupImage);
+        this._popupImageDescription = this._popup.querySelector(this._popupSelectors.popupImageDescription);
     }
 
     openPopup(image) {

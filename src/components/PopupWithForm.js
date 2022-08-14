@@ -4,7 +4,7 @@ export default class PopupWithForm extends Popup {
     constructor(popupSelector, selectors, formSelectors, formCallback) {
         super(popupSelector, selectors);
         this._formSelectors = formSelectors;
-        this._formElement = document.querySelector(popupSelector).querySelector(formSelectors.formSelector);
+        this._formElement = this._popup.querySelector(formSelectors.formSelector);
         this.formCallback = formCallback;
         this._inputList = Array.from(this._formElement.querySelectorAll(this._formSelectors.inputSelector));
     }
@@ -18,13 +18,13 @@ export default class PopupWithForm extends Popup {
     _getInputValues() {
         this._formValues = {};
         this._inputList.forEach(input => {
-          this._formValues[input.name] = input.value;
+            this._formValues[input.name] = input.value;
         });
         return this._formValues;
       } 
 
     setInputValues (data) {
-        Object.keys(data).forEach (key => {
+        Object.keys(data).forEach(key => {
             const keyInput = this._inputList.find(item => item.name == key);
             keyInput.value = data[key]
         })
