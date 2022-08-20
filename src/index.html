@@ -14,7 +14,10 @@
     </header>
     <main>
         <section class="profile">
-            <img class="profile__avatar" src="<%=require('./images/profile__avatar.jpg')%>" alt="Ваш аватар">            
+            <div class="profile__avatar">
+                <img class="profile__avatar-image" alt="Ваш аватар" onerror="getImageError(this);">
+                <button class="profile__avatar-edit-button" type="button"></button>   
+            </div>           
             <div class="profile__info">
                 <h1 class="profile__author-name">Жак-Ив Кусто</h1>
                 <button class="profile__edit-button" type="button"></button>
@@ -65,12 +68,39 @@
             <p class="popup__image-description">Псков</p>
         </div>
     </div>
+    <div class="popup" id="avatar-popup">
+        <div class="popup__container">
+            <button type="reset" class="popup__close-button" id="avatar-popup__close-button"></button>
+            <h2 class="popup__title">Обновить аватар</h2>
+            <form class = "popup__form" id="avatar-popup__form" name="avatar-edit-form">
+                <fieldset class="popup__inputs">
+                    <input type="url" class="popup__input" id ="avatar-link-popup__input" name ="link" placeholder="Ссылка на картинку" required>
+                    <span class="popup__input-error" id="avatar-link-popup__input-error"></span>
+                    <input type="submit" class="popup__save-button" id="avatar-popup__save-button" value="Сохранить">
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="popup" id="sure-popup">
+        <div class="popup__container">
+            <button type="reset" class="popup__close-button" id="sure-popup__close-button"></button>
+            <h2 class="popup__title">Вы уверены?</h2>
+            <form class = "popup__form" id="sure-popup__form" name="sure-edit-form">
+                <fieldset class="popup__inputs">
+                    <input type="submit" class="popup__save-button" id="sure-popup__save-button" value="Да">
+                </fieldset>
+            </form>
+        </div>
+    </div>
     <template id="tile">
         <div class="tiles__item">
             <img class="tiles__image" onerror="getImageError(this);">
             <div class="tiles__place">
                 <h2 class="tiles__title">Петергоф</h2>
-                <button class="tiles__like" type="button"></button>
+                <div class="tiles__likes">
+                    <button class="tiles__like" type="button"></button>
+                    <p class="tiles__like-count">1</p>
+                </div>  
             </div>
             <button class="tiles__delete-button" type="button"></button>
         </div>
