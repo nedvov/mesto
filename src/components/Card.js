@@ -28,6 +28,23 @@ export default class Card {
         this._deleteButton.addEventListener('click', () => this._handleCardDelete(this));
     }
 
+    deleteTile () {
+        this._item.remove(); 
+        this._item = null;
+    }
+
+    likeTile (count) {
+        this._like.classList.add(this._selectors.likeActiveSelector);
+        this._isLiked = true;
+        this._likesCount.textContent = count;
+    }
+
+    dislikeTile (count) {
+        this._like.classList.remove(this._selectors.likeActiveSelector);
+        this._isLiked = false;
+        this._likesCount.textContent = count;
+    }
+
     returnTile () {
         this._item = this.#getTemplate();
         this._image = this._item.querySelector(this._selectors.imageSelector);

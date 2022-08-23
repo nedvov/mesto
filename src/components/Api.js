@@ -15,10 +15,6 @@ export default class Api {
             return data 
         })
     }
-
-    #isError (err) {
-        console.log(err);
-    }
   
     async getInitialCards() {
         return  fetch(`${this._baseUrl}/cards`, {
@@ -28,7 +24,6 @@ export default class Api {
             }            
         })
         .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err))
     }
 
     async getUserInfo() {
@@ -39,7 +34,6 @@ export default class Api {
             }            
         })
         .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err)) 
     }
 
     async addNewCard(name, link) {
@@ -54,8 +48,7 @@ export default class Api {
                 'link': link
             })          
         })
-        .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err))    
+        .then(res => this.#isOK(res)) 
     }
 
     async setUserInfo(name, job) {
@@ -71,7 +64,6 @@ export default class Api {
             })          
         })
         .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err))   
     }
 
     async deleteCard(cardId) {
@@ -87,9 +79,6 @@ export default class Api {
             }
             return Promise.reject(`Ошибка: ${res.status}`);
         })
-        .catch((err) => {
-            console.log(err);
-        })    
     }
 
     async likeCard(cardId) {
@@ -101,7 +90,6 @@ export default class Api {
             }        
         })
         .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err))    
     }
 
     async dislikeCard(cardId) {
@@ -113,7 +101,6 @@ export default class Api {
             }        
         })
         .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err))   
     }
 
     async setUserAvatar(link) {
@@ -128,6 +115,5 @@ export default class Api {
             })          
         })
         .then(res => this.#isOK(res))
-        .catch(err => this.#isError(err))   
     }
 }

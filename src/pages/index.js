@@ -18,81 +18,77 @@ const api = new Api({
   }
 });
 
-const UserProfile = new UserInfo(UserInfoSelectors.name, UserInfoSelectors.about, UserInfoSelectors.avatar);
-let tilesSection = null;
-
-api.getUserInfo()
-  .then(data => {
-    UserProfile.setUserInfo(data);
-    UserProfile.setAvatar(data)
-  })
-
-api.getInitialCards()
-  .then(data => {
-    const initialCards = data
-    const tilesSectionData = {
-      items: initialCards,
-      renderer: tilesRenderer
-    };
-    tilesSection = new Section(tilesSectionData, cardSelectors.sectionSelector);
-    tilesSection.renderSection();
-  })
-
 const tilesRenderer = (target) => {
-  return(new Card(target, cardSelectors, imagePopup.openPopup.bind(imagePopup), surePopup.openPopup.bind(surePopup), likeCallback, dislikeCallback, UserProfile.getUserId()).returnTile())
+  return(new Card(target, cardSelectors, imagePopup.openPopup.bind(imagePopup), surePopup.openPopup.bind(surePopup), likeCallback, dislikeCallback, userProfile.getUserId()).returnTile())
 }
 
+const userProfile = new UserInfo(UserInfoSelectors.name, UserInfoSelectors.about, UserInfoSelectors.avatar);
+const tilesSection = new Section(tilesRenderer, cardSelectors.sectionSelector);
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(values => {
+    userProfile.setUserInfo(values[0]);
+    userProfile.setAvatar(values[0]);
+    tilesSection.renderSection(values[1]);
+  })
+  .catch(err => console.log(err))
+
 const tilesCallback = (target) => {
-  renderLoading(true, tilesPopup)
+  tilesPopup.renderLoading(true)
   api.addNewCard(target.name, target.link)
     .then(data => {
-      tilesSection.addItem(tilesRenderer(data))
+      console.log(data)
+      tilesSection.renderSection([data])
+      tilesPopup.closePopup()
     })
-    .finally(() => renderLoading(false, tilesPopup))
+    .catch(err => console.log(err))
+    .finally(() => tilesPopup.renderLoading(false))    
 }
 
 const profileCallback = (target) => {
-  renderLoading(true, profilePopup)
+ profilePopup.renderLoading(true)
   api.setUserInfo(target.name, target.about)
     .then((data) => {
-      UserProfile.setUserInfo(data)
+      userProfile.setUserInfo(data)
+      profilePopup.closePopup();
     })
-  .finally(() => renderLoading(false, profilePopup))
+    .catch(err => console.log(err))
+    .finally(() => profilePopup.renderLoading(false))
 }
 
 const avatarCallback = (target) => {
   api.setUserAvatar(target.avatar)
   .then((data) => {
-    UserProfile.setAvatar(data)
+    userProfile.setAvatar(data)
   })
+  .catch(err => console.log(err))
 }
 
 const sureCallback = (target) => {
-  renderLoading(true, surePopup)
+  surePopup.renderLoading(true)
   api.deleteCard(target._id)
   .then(() => {
-    target._item.remove();
-    target._item = null;
+    target.deleteTile();
+    surePopup.closePopup();
   })
-  .finally(() => renderLoading(false, surePopup))
+  .catch(err => console.log(err))
+  .finally(() => surePopup.renderLoading(false))
 }
 
 const likeCallback = (target) => {
   api.likeCard(target._id)
   .then(data => {
-    target._like.classList.add(target._selectors.likeActiveSelector);
-    target._isLiked = true;
-    target._likesCount.textContent =  data.likes.length;
+    target.likeTile(data.likes.length);  
   })
+  .catch(err => console.log(err))
 }
 
 const dislikeCallback = (target) => {
   api.dislikeCard(target._id)
   .then(data => {
-    target._like.classList.remove(target._selectors.likeActiveSelector);
-    target._isLiked = false;
-    target._likesCount.textContent =  data.likes.length;
+    target.dislikeTile(data.likes.length);
   })
+  .catch(err => console.log(err))
 }
 
 const tilesPopup = new PopupWithForm(popupSelectors.tilesPopup, popupSelectors, formSelectors, tilesCallback);
@@ -116,7 +112,7 @@ tilesFormValidator.enableValidation();
 avatarFormValidator.enableValidation();
 
 profileEditButton.addEventListener('click', () => {
-    profilePopup.setInputValues(UserProfile.getUserInfo())
+    profilePopup.setInputValues(userProfile.getUserInfo())
     profileFormValidator.clearForm();
     profileFormValidator.checkSubmitButtonState();
     profilePopup.openPopup();

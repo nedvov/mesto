@@ -10,6 +10,14 @@ export default class PopupWithOneButton extends Popup {
         this._submitButtonDefaultValue = this._submitButton.value;
     }
 
+    renderLoading (isLoading) {
+        if (isLoading) {
+        this._submitButton.value = 'Сохранение...'
+        } else {
+        this._submitButton.value = 'Да';
+        }
+    } 
+
     openPopup(item) {
         super.openPopup();
         this._item = item;
