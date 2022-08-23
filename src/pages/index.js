@@ -60,6 +60,7 @@ const avatarCallback = (target) => {
   api.setUserAvatar(target.avatar)
   .then((data) => {
     userProfile.setAvatar(data)
+    avatarPopup.closePopup();
   })
   .catch(err => console.log(err))
 }
