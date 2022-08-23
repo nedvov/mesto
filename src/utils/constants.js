@@ -1,33 +1,58 @@
 export const initialCards = [
     {
-      likes: ["user1", "user2"],
+      likes: [{_id: "user1"}, {_id: "d1e48a1c380be879675ee8c0"}],
       name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+      owner: {
+        _id: 'd1e48a1c380be879675ee8c0'
+      },
+      id: '10001'
     },
     {
-      likes: ["user1", "user2"],
+      likes: [{_id: "user1"}, {_id: "user2"}],
       name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+      owner: {
+        _id: 'user1'
+      },
+      id: '10002'
     },
     {
-      likes: ["user1", "user2"],
+      likes: [{_id: "user1"}, {_id: "user2"}],
       name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+      owner: {
+        _id: 'd1e48a1c380be879675ee8c0'
+      },
+      id: '10003'
     },
     {
-      likes: ["user1", "user2"],
+      likes: [{_id: "user1"}, {_id: "user2"}],
       name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+      owner: {
+        _id: 'user4'
+      },
+      id: '10004'
     },
     {
-      likes: ["user1", "user2"],
+      likes: [{_id: "user1"}, {_id: "user2"}],
       name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+      owner: {
+        _id: 'user1'
+      },
+      id: '10005'
+      
     },
     {
-      likes: ["user1", "user2", "user3"],
+      likes: [{_id: "user1"}, {_id: "user2"}, {_id: "d1e48a1c380be879675ee8c0"}],
       name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+      owner: {
+        _id: 'user1'
+      },
+      id: '10006'
     }
 ];
 
@@ -66,7 +91,7 @@ export const popupSelectors = {
 
 export const UserInfoSelectors = {
   name: '.profile__author-name',
-  job: '.profile__author-job',
+  about: '.profile__author-job',
   avatar: '.profile__avatar-image'
 }
 

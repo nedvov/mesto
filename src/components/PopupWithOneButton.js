@@ -6,6 +6,8 @@ export default class PopupWithOneButton extends Popup {
         this._formSelectors = formSelectors;
         this._formElement = this._popup.querySelector(formSelectors.formSelector);
         this.formCallback = formCallback;
+        this._submitButton = this._popup.querySelector(formSelectors.submitButtonSelector);
+        this._submitButtonDefaultValue = this._submitButton.value;
     }
 
     openPopup(item) {

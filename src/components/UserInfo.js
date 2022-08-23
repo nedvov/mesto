@@ -8,19 +8,21 @@ export default class UserInfo {
     getUserInfo () {
         return {
             name: this._name.textContent,
-            job: this._job.textContent
+            about: this._job.textContent
         }     
     }
+
+    getUserId () {
+        return this._id
+    }
     
-    setUserInfo ({name, job}) {   
+    setUserInfo ({name, about, _id}) {   
         this._name.textContent = name;
-        this._job.textContent = job;
+        this._job.textContent = about;
+        this._id = _id;
     }
 
-    setAvatar({link}) {
-        if (this.onerror) {
-            console.log('1')
-        }
-        this._avatar.src = link
+    setAvatar({avatar}) {
+        this._avatar.src = avatar
     }
 }
