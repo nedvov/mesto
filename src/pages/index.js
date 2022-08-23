@@ -37,7 +37,6 @@ const tilesCallback = (target) => {
   tilesPopup.renderLoading(true)
   api.addNewCard(target.name, target.link)
     .then(data => {
-      console.log(data)
       tilesSection.renderSection([data])
       tilesPopup.closePopup()
     })
@@ -57,12 +56,14 @@ const profileCallback = (target) => {
 }
 
 const avatarCallback = (target) => {
+  avatarPopup.renderLoading(true);
   api.setUserAvatar(target.avatar)
   .then((data) => {
     userProfile.setAvatar(data)
     avatarPopup.closePopup();
   })
   .catch(err => console.log(err))
+  .finally(() => avatarPopup.renderLoading(false))
 }
 
 const sureCallback = (target) => {
