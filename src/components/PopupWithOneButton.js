@@ -28,7 +28,6 @@ export default class PopupWithOneButton extends Popup {
         this._formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this.formCallback(this._item);
-            this.closePopup();
             window.scrollTo(0, 0);
         });           
     }

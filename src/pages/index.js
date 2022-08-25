@@ -7,7 +7,7 @@ import FormValidator from '../components/FormValidator.js';
 import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
 import Api from '../components/Api.js';
-import {getImageError, renderLoading} from '../utils/utils.js';
+import {getImageError} from '../utils/utils.js';
 import './index.css';
 
 const api = new Api({
@@ -19,7 +19,8 @@ const api = new Api({
 });
 
 const tilesRenderer = (target) => {
-  return(new Card(target, cardSelectors, imagePopup.openPopup.bind(imagePopup), surePopup.openPopup.bind(surePopup), likeCallback, dislikeCallback, userProfile.getUserId()).returnTile())
+  const tile = new Card(target, cardSelectors, imagePopup.openPopup.bind(imagePopup), surePopup.openPopup.bind(surePopup), likeCallback, dislikeCallback, userProfile.getUserId()).returnTile()
+  tilesSection.addItem(tile)
 }
 
 const userProfile = new UserInfo(UserInfoSelectors.name, UserInfoSelectors.about, UserInfoSelectors.avatar);
@@ -27,9 +28,10 @@ const tilesSection = new Section(tilesRenderer, cardSelectors.sectionSelector);
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(values => {
-    userProfile.setUserInfo(values[0]);
-    userProfile.setAvatar(values[0]);
-    tilesSection.renderSection(values[1]);
+    const [initialUser, initialCards] = values;
+    userProfile.setUserInfo(initialUser);
+    userProfile.setAvatar(initialUser);
+    tilesSection.renderSection(initialCards);
   })
   .catch(err => console.log(err))
 
@@ -133,5 +135,3 @@ avatarEditButton.addEventListener('click', () => {
 });
 
 window.getImageError = getImageError;
-
-//https://i.pinimg.com/originals/76/6c/f7/766cf770ea8dd3529bd8e0c41d6784be.jpg

@@ -4,14 +4,13 @@ export default class Section {
       this._container = document.querySelector(containerSelector);
     }
 
-    #renderItem(item) {
-      const element = this._tilesRenderer(item);
-      this._container.prepend(element)
+    addItem(item) {
+      this._container.prepend(item)
     }
 
     renderSection (items) {
       items.forEach(item => {
-        this.#renderItem(item);
+        this._tilesRenderer(item);
       });    
     }
 }
