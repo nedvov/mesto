@@ -18,9 +18,18 @@ const api = new Api({
   }
 });
 
+const generateCard = (target) => {
+  return new Card(target, 
+    cardSelectors, 
+    imagePopup.openPopup.bind(imagePopup), 
+    surePopup.openPopup.bind(surePopup), 
+    likeCallback, 
+    dislikeCallback, 
+    userProfile.getUserId()).returnTile()
+}
+
 const tilesRenderer = (target) => {
-  const tile = new Card(target, cardSelectors, imagePopup.openPopup.bind(imagePopup), surePopup.openPopup.bind(surePopup), likeCallback, dislikeCallback, userProfile.getUserId()).returnTile()
-  tilesSection.addItem(tile)
+  tilesSection.appendItem(generateCard(target))
 }
 
 const userProfile = new UserInfo(UserInfoSelectors.name, UserInfoSelectors.about, UserInfoSelectors.avatar);
@@ -39,7 +48,7 @@ const tilesCallback = (target) => {
   tilesPopup.renderLoading(true)
   api.addNewCard(target.name, target.link)
     .then(data => {
-      tilesSection.renderSection([data])
+      tilesSection.prependItem(generateCard(data))
       tilesPopup.closePopup()
     })
     .catch(err => console.log(err))
